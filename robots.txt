@@ -1,0 +1,15 @@
+﻿User-agent: *
+
+# Chặn khu vực quản trị và file sao lưu
+Disallow: /core_admin/
+Disallow: /admin-backup/
+Disallow: /db_backup_temp/
+Disallow: /.facebook/
+Disallow: /.github/
+Disallow: /.BACKS/
+
+# Cho phép toàn bộ nội dung còn lại của website
+Allow: /
+
+# Khai báo sitemap
+Sitemap: https://sonxit.vn/sitemap.xml

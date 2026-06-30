@@ -1,0 +1,48 @@
+cd /d d:\xampp\htdocs\comfyUi
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+
+
+
+
+Hướng dẫn sử dụng từng bước:
+Bước 1 — Giải nén
+bashunzip comfyui-api.zip
+cd comfyui-api
+Bước 2 — Cài dependencies
+bashpip install -r requirements.txt
+Bước 3 — Đảm bảo ComfyUI đang chạy
+ComfyUI phải được khởi động trước với API mode:
+bash# Trong thư mục ComfyUI của bạn
+python main.py --listen 0.0.0.0 --port 8188
+Kiểm tra bằng cách vào http://localhost:8188 — nếu thấy giao diện ComfyUI là OK.
+Bước 4 — Chỉnh tên model
+Mở workflows/txt2img.json, sửa dòng này thành tên model bạn đang có:
+json"ckpt_name": "v1-5-pruned-emaonly.ckpt"  ← đổi thành tên file model của bạn
+Tên model phải khớp với file trong thư mục ComfyUI/models/checkpoints/.
+Bước 5 — Chạy FastAPI
+bashuvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+Bước 6 — Dùng API
+Xem docs tương tác (Swagger):
+Vào http://localhost:8000/docs — có thể test trực tiếp trên trình duyệt.
+Hoặc dùng curl:
+bash# 1. Gửi yêu cầu tạo ảnh
+curl -X POST http://localhost:8000/generate \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "a cat on the moon, cinematic lighting", "steps": 20}'
+
+# Trả về:
+# {"job_id": "abc-123", "status": "pending"}
+bash# 2. Kiểm tra tiến độ (lặp lại cho đến khi "completed")
+curl http://localhost:8000/status/abc-123
+
+# Trả về:
+# {"status": "processing", "progress": 60}
+bash# 3. Tải ảnh khi status = "completed"
+curl http://localhost:8000/result/abc-123 --output anh_ket_qua.png
+
+Tóm tắt luồng
+Bạn  →  POST /generate  →  nhận job_id
+Bạn  →  GET /status     →  chờ "completed"
+Bạn  →  GET /result     →  tải ảnh PNG về
+Nếu gặp lỗi kết nối ComfyUI, kiểm tra lại COMFY_URL trong comfy_client.py có đúng IP/port không.

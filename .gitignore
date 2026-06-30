@@ -1,0 +1,26 @@
+# Composer dependencies
+/vendor/
+/composer.phar
+
+# Internal AI workspaces and configs
+/.agents/
+/.claude/
+/.gemini/
+
+# Databases and Backups
+/backups/
+/db_backup_temp/
+*.sql
+*.zip
+*.tar.gz
+
+# Uploads and temporary media
+/uploads/
+cv_preview*.png
+
+# IDEs and local environments
+/.vscode/
+/.idea/
+.DS_Store
+Thumbs.db
+.env

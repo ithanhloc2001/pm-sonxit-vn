@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Sitemap tĩnh cho sonxit.vn. Có thể bổ sung động (sản phẩm, blog...) sau. -->
+
+  <!-- Trang chủ -->
+  <url>
+    <loc>https://sonxit.vn/</loc>
+    <lastmod>2026-04-03T09:17:13+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Trang tài khoản / đăng nhập -->
+  <url>
+    <loc>https://sonxit.vn/login.php</loc>
+    <lastmod>2026-04-03T09:17:13+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <!-- Các trang chính sách -->
+  <url>
+    <loc>https://sonxit.vn/policy/payment.php</loc>
+    <lastmod>2026-04-03T09:17:13+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://sonxit.vn/policy/privacy.php</loc>
+    <lastmod>2026-04-03T09:17:13+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://sonxit.vn/policy/return.php</loc>
+    <lastmod>2026-04-03T09:17:13+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://sonxit.vn/policy/shipping.php</loc>
+    <lastmod>2026-04-03T09:17:13+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://sonxit.vn/policy/terms.php</loc>
+    <lastmod>2026-04-03T09:17:13+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

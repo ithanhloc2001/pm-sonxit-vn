@@ -1,0 +1,379 @@
+/* ============================================================
+   Hộp chat nổi cho ADMIN — trả lời nhiều khách cùng lúc.
+   ============================================================ */
+:root { --pmac-primary: var(--theme-primary, #0c4c29); }
+
+.pmac-launcher {
+    position: fixed; right: 20px; bottom: 20px; z-index: 10000;
+    width: 56px; height: 56px; border-radius: 50%; border: none;
+    background: var(--pmac-primary); color: #fff; cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,.22);
+    display: flex; align-items: center; justify-content: center;
+}
+.pmac-launcher:hover { transform: scale(1.06); }
+.pmac-launcher i { font-size: 1.5rem; }
+.pmac-launcher .pmac-badge {
+    position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px;
+    background: #ef4444; color: #fff; border-radius: 999px; font-size: .72rem; font-weight: 700;
+    display: none; align-items: center; justify-content: center; border: 2px solid #fff;
+}
+.pmac-launcher .pmac-badge.show { display: inline-flex; }
+
+.pmac-panel {
+    position: fixed; right: 20px; bottom: 20px; z-index: 10001;
+    width: 680px; max-width: calc(100vw - 24px);
+    height: 560px; max-height: calc(100dvh - 32px);
+    background: #fff; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 18px 50px rgba(15,23,42,.3);
+    display: none; flex-direction: column;
+}
+.pmac-panel.open { display: flex; }
+
+.pmac-head {
+    background: var(--pmac-primary); color: #fff; padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px; flex: 0 0 auto;
+}
+.pmac-head .t { font-weight: 800; }
+.pmac-head .pmac-close { margin-left: auto; background: transparent; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; }
+
+.pmac-main { flex: 1 1 auto; display: flex; min-height: 0; }
+
+/* Cột danh sách phiên */
+.pmac-sidebar { width: 240px; flex: 0 0 240px; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; background: #f8fafc; }
+.pmac-filters { display: flex; border-bottom: 1px solid #e5e7eb; background: #fff; padding: 6px; gap: 4px; }
+.pmac-filter-btn { flex: 1; border: none; background: transparent; padding: 6px 4px; font-size: 0.72rem; font-weight: 700; border-radius: 6px; cursor: pointer; color: #64748b; text-align: center; transition: all 0.2s; }
+.pmac-filter-btn:hover { background: #f1f5f9; color: #0f172a; }
+.pmac-filter-btn.active { background: var(--pmac-primary); color: #fff; }
+.pmac-list { flex: 1 1 auto; overflow-y: auto; }
+.pmac-sess { padding: 10px 12px; border-bottom: 1px solid #eef2f7; cursor: pointer; display: flex; flex-direction: column; gap: 2px; }
+.pmac-sess:hover { background: #eef2f7; }
+.pmac-sess.active { background: #e2efe9; box-shadow: inset 3px 0 0 var(--pmac-primary); }
+.pmac-sess .nm { font-weight: 700; font-size: .85rem; color: #0f172a; display: flex; align-items: center; gap: 6px; }
+.pmac-sess .nm .udot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; display: none; }
+.pmac-sess.unread .nm .udot { display: inline-block; }
+.pmac-sess .sn { font-size: .76rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pmac-sess .mt { font-size: .68rem; color: #94a3b8; }
+.pmac-list-empty { padding: 18px; text-align: center; color: #94a3b8; font-size: .82rem; }
+
+/* Cột hội thoại */
+.pmac-conv { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; }
+.pmac-conv-head { padding: 10px 14px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.pmac-conv-head .cn { font-weight: 700; color: #0f172a; }
+.pmac-conv-head .cp { font-size: .76rem; color: #64748b; }
+.pmac-conv-head .pmac-actions { margin-left: auto; display: flex; gap: 8px; }
+.pmac-conv-head .pmac-close-sess { border: 1px solid #e5e7eb; background: #fff; color: #dc2626; font-size: .76rem; font-weight: 600; border-radius: 8px; padding: 4px 10px; cursor: pointer; }
+.pmac-conv-head .pmac-delete-sess { border: 1px solid #fee2e2; background: #fee2e2; color: #dc2626; font-size: .76rem; font-weight: 600; border-radius: 8px; padding: 4px 10px; cursor: pointer; transition: all 0.2s; }
+.pmac-conv-head .pmac-delete-sess:hover { background: #fecaca; color: #b91c1c; }
+.pmac-body { flex: 1 1 auto; overflow-y: auto; padding: 14px; background: #f1f5f9; display: flex; flex-direction: column; gap: 10px; }
+.pmac-placeholder { margin: auto; color: #94a3b8; font-size: .85rem; text-align: center; }
+
+.pmac-msg { display: flex; max-width: 80%; }
+.pmac-msg.them { align-self: flex-start; }      /* khách */
+.pmac-msg.us { align-self: flex-end; justify-content: flex-end; }  /* admin */
+.pmac-msg.sys { align-self: center; max-width: 90%; }
+.pmac-bubble { padding: 8px 12px; border-radius: 14px; font-size: .88rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
+.pmac-msg.them .pmac-bubble { background: #fff; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 4px; }
+.pmac-msg.us .pmac-bubble { background: var(--pmac-primary); color: #fff; border-bottom-right-radius: 4px; }
+.pmac-msg.sys .pmac-bubble { background: #e2e8f0; color: #475569; font-size: .76rem; border-radius: 999px; padding: 4px 12px; }
+.pmac-time { font-size: .66rem; color: #94a3b8; margin-top: 3px; }
+.pmac-msg.us .pmac-time { text-align: right; }
+.pmac-bubble img { max-width: 180px; border-radius: 8px; display: block; margin-top: 4px; cursor: pointer; }
+
+.pmac-foot { flex: 0 0 auto; border-top: 1px solid #e5e7eb; padding: 8px 10px; background: #fff; }
+.pmac-inputrow { display: flex; align-items: center; gap: 8px; }
+.pmac-inputrow textarea { flex: 1 1 auto; resize: none; border: 1px solid #dbe3ef; border-radius: 18px; padding: 8px 12px; font-size: .88rem; max-height: 90px; }
+.pmac-inputrow textarea:focus { outline: none; border-color: var(--pmac-primary); }
+.pmac-iconbtn { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; }
+.pmac-attach { background: #f1f5f9; color: #475569; }
+.pmac-send { background: var(--pmac-primary); color: #fff; }
+.pmac-send:disabled { opacity: .5; cursor: default; }
+.pmac-previews { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 4px 6px; }
+.pmac-previews .pv { position: relative; width: 46px; height: 46px; border-radius: 8px; overflow: visible; border: 1px solid #e2e8f0; }
+.pmac-previews .pv img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+.pmac-previews .pv .rm { position: absolute; top: -6px; right: -6px; background: #ef4444; color: #fff; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: .7rem; cursor: pointer; }
+
+.pmac-assignee-badge {
+    font-size: .68rem;
+    font-weight: 700;
+    background: #e2efe9;
+    color: var(--pmac-primary);
+    border: 1px solid rgba(12, 76, 41, 0.2);
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Custom SweetAlert2 for Paint&More */
+.swal2-popup.pm-swal-popup {
+    font-family: 'Montserrat', sans-serif !important;
+    border-radius: 18px !important;
+    padding: 2rem 1.5rem !important;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04) !important;
+}
+
+.swal2-popup.pm-swal-popup .swal2-title {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #050505 !important;
+    margin-top: 15px !important;
+}
+
+.swal2-popup.pm-swal-popup .swal2-html-container {
+    font-size: 0.9rem !important;
+    color: #65676b !important;
+    line-height: 1.5 !important;
+    margin: 10px 0 20px 0 !important;
+}
+
+.swal2-popup.pm-swal-popup .swal2-actions {
+    gap: 12px !important;
+    margin-top: 15px !important;
+}
+
+.pm-swal-confirm {
+    border-radius: 12px !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    padding: 11px 24px !important;
+    background-color: var(--pmac-primary, #0c4c29) !important;
+    color: #fff !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 12px rgba(12, 76, 41, 0.25) !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.pm-swal-confirm:hover {
+    background-color: #08331c !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 16px rgba(12, 76, 41, 0.35) !important;
+}
+
+.pm-swal-confirm:active {
+    transform: translateY(1px) !important;
+}
+
+.pm-swal-cancel {
+    border-radius: 12px !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    padding: 11px 24px !important;
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.pm-swal-cancel:hover {
+    background-color: #e2e8f0 !important;
+    color: #1e293b !important;
+    border-color: #94a3b8 !important;
+    transform: translateY(-1px) !important;
+}
+
+.pm-swal-cancel:active {
+    transform: translateY(1px) !important;
+}
+
+/* Custom icons to match the brand color */
+.swal2-popup.pm-swal-popup .swal2-icon {
+    transform: scale(0.9) !important;
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+.swal2-popup.pm-swal-popup .swal2-icon.swal2-warning {
+    border-color: #f59e0b !important;
+    color: #f59e0b !important;
+}
+
+.swal2-popup.pm-swal-popup .swal2-icon.swal2-question {
+    border-color: var(--pmac-primary, #0c4c29) !important;
+    color: var(--pmac-primary, #0c4c29) !important;
+}
+
+.swal2-popup.pm-swal-popup .swal2-icon.swal2-success {
+    border-color: var(--pmac-primary, #0c4c29) !important;
+    color: var(--pmac-primary, #0c4c29) !important;
+}
+.swal2-popup.pm-swal-popup .swal2-icon.swal2-success [class^=swal2-success-line] {
+    background-color: var(--pmac-primary, #0c4c29) !important;
+}
+.swal2-popup.pm-swal-popup .swal2-icon.swal2-success .swal2-success-ring {
+    border: 4px solid rgba(12, 76, 41, 0.3) !important;
+}
+
+/* Trạng thái gửi tin nhắn */
+.pmac-msg.pmac-msg-sending .pmac-bubble {
+    opacity: 0.65;
+    transition: opacity 0.2s ease;
+}
+.pmac-msg.pmac-msg-failed .pmac-bubble {
+    background: #fecaca !important;
+    color: #991b1b !important;
+    border: 1px solid #fca5a5 !important;
+}
+.pmac-msg.pmac-msg-failed .pmac-time {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+/* ===== Nút phóng to + trạng thái mở rộng ===== */
+.pmac-expand {
+    margin-left: auto; background: transparent; border: none; color: #fff;
+    font-size: 1.05rem; cursor: pointer; padding: 2px 6px; opacity: .9;
+}
+.pmac-expand:hover { opacity: 1; }
+.pmac-head .pmac-close { margin-left: 6px; }
+
+.pmac-panel--expanded {
+    width: 100vw; max-width: 100vw;
+    height: 100dvh; max-height: 100dvh;
+    right: 0; bottom: 0; left: 0; top: 0;
+    border-radius: 0;
+}
+.pmac-panel--expanded .pmac-sidebar { width: 320px; flex-basis: 320px; }
+
+/* ===== Nút gợi ý trong footer ===== */
+.pmac-iconbtn.pmac-suggest { background: #eef2f7; color: var(--pmac-primary); }
+.pmac-iconbtn.pmac-suggest:hover { background: #e2efe9; }
+
+/* ===== Picker (sản phẩm / voucher) — MODAL nổi giữa màn hình ===== */
+.pmac-conv { position: relative; }
+.pmac-modal {
+    position: fixed; inset: 0; z-index: 10050;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.pmac-modal-backdrop { position: absolute; inset: 0; background: rgba(15,23,42,.5); }
+.pmac-modal-box {
+    position: relative; z-index: 1; background: #fff;
+    width: min(880px, 96vw); max-height: 86vh;
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(15,23,42,.35);
+    display: flex; flex-direction: column;
+    animation: pmacModalIn .18s ease;
+}
+@keyframes pmacModalIn { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
+
+.pmac-picker-head { display: flex; align-items: center; padding: 14px 18px; border-bottom: 1px solid #eef2f7; background: var(--pmac-primary); color: #fff; }
+.pmac-picker-title { font-weight: 700; font-size: 1rem; }
+.pmac-picker-close { margin-left: auto; background: transparent; border: none; font-size: 1.5rem; line-height: 1; color: #fff; cursor: pointer; opacity: .9; }
+.pmac-picker-close:hover { opacity: 1; }
+.pmac-picker-tools { display: flex; gap: 10px; padding: 14px 18px; }
+.pmac-picker-search, .pmac-picker-cat {
+    border: 1px solid #dbe3ef; border-radius: 10px; padding: 10px 12px; font-size: .9rem;
+}
+.pmac-picker-search { flex: 1 1 auto; }
+.pmac-picker-cat { flex: 0 0 auto; max-width: 220px; }
+.pmac-picker-grid, .pmac-picker-list { overflow-y: auto; padding: 4px 18px 18px; }
+.pmac-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.pmac-picker-empty { padding: 28px; text-align: center; color: #94a3b8; font-size: .9rem; grid-column: 1 / -1; }
+
+.pmac-pp-item { border: 1px solid #eef2f7; border-radius: 10px; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+.pmac-pp-thumb { width: 100%; aspect-ratio: 1/1; background: #f1f5f9; border-radius: 8px; overflow: hidden; }
+.pmac-pp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.pmac-pp-name { font-size: .8rem; font-weight: 600; color: #1e293b; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pmac-pp-price { font-size: .82rem; font-weight: 700; color: #dc2626; }
+.pmac-pp-send, .pmac-vp-send {
+    margin-top: auto; border: none; background: var(--pmac-primary); color: #fff;
+    border-radius: 7px; padding: 6px; font-size: .78rem; font-weight: 700; cursor: pointer;
+}
+.pmac-pp-send:hover, .pmac-vp-send:hover { background: #08331c; }
+
+.pmac-vp-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+.pmac-vp-item .pmac-voux { flex: 1 1 auto; min-width: 0; }
+.pmac-vp-send { margin: 0; flex: 0 0 auto; padding: 8px 18px; align-self: center; }
+
+/* ===== Card trong luồng chat (admin: chỉ xem) ===== */
+.pmac-card { display: flex; gap: 10px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px; max-width: 320px; }
+.pmac-card-thumb { width: 64px; height: 64px; flex: 0 0 64px; border-radius: 8px; overflow: hidden; background: #f1f5f9; }
+.pmac-card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.pmac-card-info { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pmac-card-cat { font-size: .68rem; color: #94a3b8; }
+.pmac-card-name { font-size: .85rem; font-weight: 700; color: #0f172a; }
+.pmac-card-price { font-size: .85rem; font-weight: 700; color: #dc2626; }
+.pmac-card-note { font-size: .68rem; color: #94a3b8; margin-top: 2px; }
+.pmac-card-text { margin-top: 6px; color: #1e293b; }
+/* Card voucher gọn — đồng bộ với phía khách (icon + nhãn + mã + điều kiện) */
+.pmac-voux {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff; border: 1px solid #e5e7eb; border-left: 4px solid #ee4d2d;
+    border-radius: 10px; padding: 8px 10px; max-width: 320px;
+}
+/* Trong picker: card co giãn full chiều rộng item */
+.pmac-vp-item .pmac-voux { max-width: none; }
+.pmac-voux-ico {
+    flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #ee4d2d; color: #fff; font-size: .85rem;
+}
+.pmac-voux-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pmac-voux-label { font-size: .8rem; font-weight: 800; color: #111827; line-height: 1.25; }
+.pmac-voux-code { font-size: .72rem; color: #374151; }
+.pmac-voux-cond { font-size: .68rem; color: #6b7280; }
+.pmac-voux-exp { font-size: .66rem; color: #ef4444; }
+.pmac-voux-ship { border-left-color: #26aa99; }
+.pmac-voux-ship .pmac-voux-ico { background: #26aa99; }
+.pmac-voux-payment { border-left-color: #16a34a; }
+.pmac-voux-payment .pmac-voux-ico { background: #16a34a; }
+.pmac-voux-category { border-left-color: #ea580c; }
+.pmac-voux-category .pmac-voux-ico { background: #ea580c; }
+.pmac-voux-all { border-left-color: #7c3aed; }
+.pmac-voux-all .pmac-voux-ico { background: #7c3aed; }
+/* Bubble chứa card: bỏ nền/viền để card tự đứng */
+.pmac-msg.us .pmac-bubble:has(.pmac-card),
+.pmac-msg.them .pmac-bubble:has(.pmac-card),
+.pmac-msg.us .pmac-bubble:has(.pmac-voux),
+.pmac-msg.them .pmac-bubble:has(.pmac-voux) { background: transparent; border: none; padding: 0; box-shadow: none; }
+
+/* Nút quay lại danh sách (chỉ hiện trên mobile) */
+.pmac-back {
+    display: none; flex: 0 0 auto; border: none; background: transparent;
+    color: #0f172a; font-size: 1.3rem; line-height: 1; padding: 0 4px 0 0; cursor: pointer;
+    margin-right: 2px;
+}
+
+@media (max-width: 720px) {
+    .pmac-launcher { right: 16px; bottom: 16px; }
+    .pmac-panel {
+        right: 0; bottom: 0; left: 0; top: 0;
+        width: 100vw; max-width: 100vw;
+        height: 100dvh; max-height: 100dvh; border-radius: 0;
+    }
+
+    /* Bố cục 1 cột: hai khung xếp cạnh nhau, trượt khi chọn phiên */
+    .pmac-main { position: relative; overflow: hidden; }
+    .pmac-sidebar,
+    .pmac-conv {
+        width: 100%; flex: 0 0 100%; min-width: 100%;
+    }
+    .pmac-sidebar { border-right: none; }
+    .pmac-main { flex-wrap: nowrap; transition: transform 0.25s ease; }
+    .pmac-main.show-conv { transform: translateX(-100%); }
+
+    /* Hiện nút quay lại và nới rộng vùng chạm cho header hội thoại */
+    .pmac-back { display: inline-flex; align-items: center; }
+    .pmac-conv-head { padding: 12px; gap: 10px; }
+    .pmac-conv-head .pmac-actions { gap: 6px; }
+    .pmac-conv-head .pmac-close-sess,
+    .pmac-conv-head .pmac-delete-sess { padding: 6px 10px; }
+
+    /* Vùng nhập rộng rãi, an toàn với thanh điều hướng mobile */
+    .pmac-foot { padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); }
+    .pmac-inputrow textarea { font-size: 16px; }  /* tránh iOS zoom khi focus */
+    .pmac-msg { max-width: 88%; }
+
+    /* Panel vốn fullscreen → ẩn nút phóng to, bỏ trạng thái mở rộng */
+    .pmac-expand { display: none; }
+    .pmac-head .pmac-close { margin-left: auto; }
+    .pmac-panel--expanded { width: 100vw; height: 100dvh; max-height: 100dvh; right: 0; bottom: 0; }
+    .pmac-panel--expanded .pmac-sidebar { width: 140px; flex-basis: 140px; }
+    /* Modal picker: gần full màn hình trên mobile, lưới SP 2 cột */
+    .pmac-modal { padding: 0; z-index: 10060; }
+    .pmac-modal-box { width: 100vw; max-height: 100dvh; height: 100dvh; border-radius: 0; }
+    .pmac-picker-grid { grid-template-columns: repeat(2, 1fr); }
+    .pmac-picker-cat { max-width: 45%; }
+}

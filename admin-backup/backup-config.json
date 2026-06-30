@@ -1,0 +1,11 @@
+{
+    "enable_code": true,
+    "winrar_exe": "C:\\Program Files\\WinRAR\\WinRAR.exe",
+    "code_source": "C:\\KUNLOC\\diy\\www",
+    "code_dest": "D:\\XAMPP_Backups",
+    "code_zip_prefix": "backup_diy_",
+    "enable_sql": true,
+    "sqldump_exe": "docker exec -i mysql_container mysqldump",
+    "sql_dest": "C:\\KUNLOC\\diy\\db",
+    "sql_folder_prefix": "SQL_DIY_"
+}

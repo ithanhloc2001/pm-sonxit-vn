@@ -1,0 +1,87 @@
+﻿{
+  "thong_tin_ca_nhan": {
+    "ho_ten": "Nguyễn Thành Lộc",
+    "vi_tri_ung_tuyen": "Chuyên viên CNTT & Phát triển Giải pháp AI / Nguyên Nhân viên Kinh doanh",
+    "ngay_sinh": "11/02/2000",
+    "dien_thoai": "089.8485.135",
+    "email": "ithanhloc.2022@gmail.com",
+    "dia_chi": "Hẻm 380/42, Đường Lê Văn Lương, Phường Tân Hưng, Quận 7, TP. HCM",
+    "ngoai_ngu": [
+      "Tiếng Anh cơ bản"
+    ],
+    "anh_the_yeu_cau": "3x4"
+  },
+  "muc_tieu_nghe_nghiep": "Ứng dụng toàn diện năng lực công nghệ chuyên sâu bao gồm thiết kế mô hình AI tiên tiến, lập trình hệ thống, tự động hóa quy trình qua n8n kết hợp nhuần nhuyễn với tư duy nghiệp vụ Kinh doanh. Khát vọng tối ưu hóa hiệu suất vận hành thực tiễn, tăng trưởng doanh số thương mại điện tử, giảm thiểu tối đa chi phí và kiến tạo các giải pháp chuyển đổi số đột phá, mang lại giá trị thực chiến lâu dài cho tổ chức.",
+  "ky_nang_cot_loi": {
+    "lap_trinh_va_he_thong": [
+      "PHP",
+      "MySQL",
+      "JavaScript",
+      "n8n Workflow",
+      "Tích hợp API chuyên sâu"
+    ],
+    "tri_tue_nhan_tao_ai": [
+      "LLMs & RAG",
+      "ComfyUI",
+      "Stable Diffusion",
+      "Kling AI",
+      "Phát triển hệ thống AI Chatbot tự động (Facebook, Zalo)"
+    ],
+    "nghiep_vu_doanh_nghiep": [
+      "Quản trị E-commerce",
+      "Quản lý & Trưng bày hàng hóa",
+      "Tối ưu hóa SEO (Yoast SEO)",
+      "Tin học văn phòng nâng cao"
+    ]
+  },
+  "kinh_nghiem_lam_viec": [
+    {
+      "chuc_danh": "Chuyên viên IT, AI Developer & Vận hành Hệ thống",
+      "cong_ty": "Paint & More (Sơn Mỹ Nhà Việt)",
+      "thoi_gian": "2024 - Hiện tại",
+      "mo_ta_cong_viec": [
+        "Nghiên cứu các công cụ AI Media Generation nâng cao như ComfyUI, Stable Diffusion, Kling AI phục vụ truyền thông sản phẩm, phối màu trực quan công trình, chỉnh sửa hình ảnh và nâng cấp tăng độ nét sắc sảo.",
+        "Tự động hóa với N8N: Tự động hóa workflow - tích hợp thành công hệ thống AI Chatbot tự động tư vấn, tương tác và chăm sóc khách hàng trên các nền tảng mạng xã hội cốt lõi (Facebook, Zalo).",
+        "Phát triển Ứng dụng: `OneCoat ColorMind AI` giúp hỗ trợ công tác phối màu và xuất dự toán hệ thống sơn cho nội bộ từ các dữ liệu kỹ thuật sản phẩm (TDS), các dòng sơn cao cấp độc quyền (Kelly-Moore, Modern Masters, OneCoat).",
+        "Phát triển ứng dụng: `Khảo sát công trình` Xây dựng module tự động tổng hợp chuẩn xác các thông số mặt sàn, diện tích tường công trình. Thực hiện số hóa dữ liệu lưu trữ thông minh (hình ảnh, video, vị trí tọa độ khảo sát) và tích hợp tính năng tự động xuất báo giá dự toán chi phí theo diện tích thực tế.",
+        "Phát triển hệ thống E-commerce: Chịu trách nhiệm trực tiếp phát triển, nâng cấp và vận hành toàn diện website thương mại điện tử sonxit.vn; cấu hình tích hợp cổng thanh toán trực tuyến bảo mật (Zalopay, Momo, Vnpay) và hoàn thiện thủ tục thông báo website chính thức với Bộ Công Thương. Khắc phục triệt để các lỗi kỹ thuật hệ thống vận hành (như sự cố tự động chuyển hướng link do plugin Yoast SEO)."
+      ]
+    },
+    {
+      "chuc_danh": "(Thực tập) Nhân viên Sale Online ",
+      "cong_ty": "FPT Telecom | Quận 7, TP. HCM",
+      "thoi_gian": "09/2021 – 11/2021",
+      "mo_ta_cong_viec": [
+        "Chủ động khai thác, tìm kiếm khách hàng tiềm năng qua các kênh trực tuyến, tư vấn chuyên sâu và giới thiệu các gói giải pháp sản phẩm dịch vụ viễn thông chiến lược của công ty.",
+        "Hỗ trợ khách hàng hoàn thiện quy trình đăng ký, phối hợp điều phối lắp đặt kịp thời và duy trì dịch vụ chăm sóc hậu mãi bền vững cho tập khách hàng hiện hữu."
+      ]
+    },
+    {
+      "chuc_danh": " (Thực tập) Nhân viên Sale Offline",
+      "cong_ty": "Siêu thị Big C (GO!) | Quận 7, TP. HCM",
+      "thoi_gian": "01/2021 – 03/2021",
+      "mo_ta_cong_viec": [
+        "Quản lý, sắp xếp và trưng bày hàng hóa khoa học tại quầy FMCG, khu vực hàng mùa vụ Tết và các gian hàng trọng điểm chạy chương trình khuyến mãi.",
+        "Kiểm soát nghiêm ngặt mã vạch, giá niêm yết, theo dõi hạn sử dụng của sản phẩm và cập nhật, hướng dẫn trực tiếp chương trình ưu đãi giảm giá đến khách mua sắm."
+      ]
+    }
+  ],
+  "hoc_van_va_chung_chi": [
+    {
+      "loai": "Học vấn",
+      "ten_bang_cap": "Cử nhân Cao đẳng - Chuyên ngành Quản trị Kinh doanh",
+      "to_chuc_dao_tao": "Cao đẳng CTIM (Công Nghệ Thông Tin & Quản Trị Doanh Nghiệp)",
+      "thoi_gian": "10/2021 – 01/2024"
+    },
+    {
+      "loai": "Chứng chỉ",
+      "ten_chung_chi": "Chứng chỉ Tin học Văn phòng chuyên nghiệp",
+      "to_chuc_dao_tao": "Đánh giá năng lực xử lý nghiệp vụ văn phòng",
+      "thoi_gian": "Chứng chỉ xuất sắc",
+      "chi_tiet_ket_qua": {
+        "ly_thuyet": 6.6,
+        "thuc_hanh": 9.1
+      }
+    }
+  ]
+}

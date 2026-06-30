@@ -1,0 +1,93 @@
+# ----------------------------------------------------------------------
+# 1. KHỞI TẠO & CẤU HÌNH CHUNG
+# ----------------------------------------------------------------------
+RewriteEngine On
+RewriteBase /
+
+# ----------------------------------------------------------------------
+# 0. BẢO MẬT HỆ THỐNG
+# ----------------------------------------------------------------------
+# Chặn liệt kê thư mục (Directory Listing)
+Options -Indexes
+
+# Chặn truy cập trực tiếp vào các file cấu hình và nhạy cảm
+<FilesMatch "^(config\.php|bootstrap\.php|composer\.(json|lock)|package\.json|.*\.log|.*\.sql|.*\.bak|.*\.swp)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ----------------------------------------------------------------------
+# 1.5. SITEMAP XML (Tự động chạy sitemap.php)
+# ----------------------------------------------------------------------
+RewriteRule ^sitemap\.xml$ sitemap.php [L,NC]
+
+# ----------------------------------------------------------------------
+# 2. GLOBAL EXCLUSIONS (Bỏ qua nếu là file hoặc thư mục thật)
+# ----------------------------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ----------------------------------------------------------------------
+# 3. NHÓM ĐƯỜNG DẪN ĐẶC BIỆT (Priority)
+# ----------------------------------------------------------------------
+# Alias cho CRM
+RewriteCond %{THE_REQUEST} \s/facebook/crm\.php [NC]
+RewriteRule ^facebook/crm\.php$ /CRM [R=301,L,NE]
+RewriteRule ^CRM/?$ core_admin/crm.php [L,QSA,NC]
+
+# Policy pages (.html)
+RewriteRule ^([^/]+)\.html$ policy/$1.php [L,QSA,NC]
+
+# ----------------------------------------------------------------------
+# 4. NHÓM ADMIN & USER (Router hợp nhất - dùng path chung /<route>)
+# ----------------------------------------------------------------------
+# Đường dẫn /admin/* và /user/* CŨ được giữ để tương thích ngược (link/bookmark
+# /form POST cũ). main_content.php nhận ?ithanhloc/?user/?ghn như alias và quy
+# về cùng route chung. URL chính tắc mới là /<route> (xem CATCH-ALL mục 6).
+#
+# GET tới prefix cũ -> 301 sang path chung để gom canonical (không áp dụng POST
+# vì 301 sẽ làm mất body của form).
+RewriteCond %{REQUEST_METHOD} =GET
+RewriteRule ^admin/giaohangn?hanh/([^/]+)/?$ /ghn-$1 [R=301,L,NE,NC]
+RewriteCond %{REQUEST_METHOD} =GET
+RewriteRule ^user/([^/]+)/?$ /$1 [R=301,L,NE,NC]
+RewriteCond %{REQUEST_METHOD} =GET
+RewriteRule ^admin/([^/]+)/?$ /$1 [R=301,L,NE,NC]
+RewriteCond %{REQUEST_METHOD} =GET
+RewriteRule ^admin/?$ /home [R=301,L,NE,NC]
+
+# POST (và mọi method khác) vẫn rewrite nội bộ về tham số cũ để form không vỡ.
+RewriteRule ^admin/giaohangn?hanh/([^/]+)/?$ index.php?ghn=$1 [L,QSA,NC]
+RewriteRule ^admin/([^/]+)/?$ index.php?ithanhloc=$1 [L,QSA,NC]
+RewriteRule ^admin/?$ index.php?ithanhloc=home [L,QSA,NC]
+RewriteRule ^user/([^/]+)/?$ index.php?user=$1 [L,QSA,NC]
+
+# ----------------------------------------------------------------------
+# 5. NHÓM SEO: BLOG, SEARCH, SHOPPING
+# ----------------------------------------------------------------------
+RewriteRule ^blog/category/([^/]+)/?$ index.php?normal=blog&category=$1 [L,QSA,NC]
+RewriteRule ^blog/([^/]+)/?$ index.php?normal=view-blog&slug=$1 [L,QSA,NC]
+RewriteRule ^search/([^/]+)/?$ index.php?normal=search&q=$1 [L,QSA,NC]
+RewriteRule ^search/?$ index.php?normal=search [L,QSA,NC]
+RewriteRule ^shopping/([^/]+)/?$ index.php?normal=shopping&cat_slug=$1 [L,QSA,NC]
+# Danh mục sản phẩm (URL thân thiện kiểu WooCommerce): /product-category/<slug>
+RewriteRule ^product-category/([^/]+)/?$ index.php?normal=shopping&cat_slug=$1 [L,QSA,NC]
+RewriteRule ^view-notification/([^/]+)/?$ index.php?normal=view-notification&slug=$1 [L,QSA,NC]
+# Redirect old product URLs
+RewriteRule ^san-pham/(.*)$ /product/$1 [R=301,L,NC]
+RewriteRule ^order/?$ index.php?normal=order [L,QSA,NC]
+RewriteRule ^view-order/?$ index.php?normal=view-order [L,QSA,NC]
+
+RewriteRule ^product/.+$ index.php [L,QSA,NC]
+# ----------------------------------------------------------------------
+# 6. CATCH-ALL (Các trang Normal - KHÔNG CẦN LIỆT KÊ)
+# ----------------------------------------------------------------------
+# Quy tắc này sẽ bắt tất cả các slug còn lại (ví dụ: /login, /cart, /abc-xyz)
+# nhưng loại trừ các folder thực tế đã được xử lý ở bước 2.
+RewriteRule ^([^/]+)/?$ index.php?normal=$1 [L,QSA,NC]

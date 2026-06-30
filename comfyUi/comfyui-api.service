@@ -1,0 +1,21 @@
+[Unit]
+Description=Paint&More ComfyUI FastAPI Service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/comfyui-api
+ExecStart=/var/www/comfyui-api/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 --workers 1 --loop asyncio
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=comfyui-api
+
+# Giới hạn tài nguyên
+LimitNOFILE=65536
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

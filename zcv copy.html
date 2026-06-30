@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyễn Thành Lộc | CV Chuyên viên CNTT & AI Solution Developer</title>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --theme-primary: #0c4c29;
+            --theme-primary-soft: #f4f9f6;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --font-main: 'Montserrat', sans-serif;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            font-size: 13.6px;
+            line-height: 24px;
+            padding: 40px 0;
+        }
+
+        /* CV Paper Container */
+        .cv-paper {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            padding: 50px;
+        }
+
+        /* Header Layout */
+        .cv-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--theme-primary);
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        /* Clean 1:1 Square Avatar */
+        .avatar-container {
+            width: 110px;
+            height: 110px; /* 1:1 ratio */
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-info h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 0 8px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        .header-info .title {
+            font-size: 14.4px;
+            font-weight: 600;
+            color: var(--theme-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .header-contact {
+            text-align: right;
+            font-size: 12.8px;
+            color: var(--text-secondary);
+            line-height: 22px;
+        }
+        .header-contact a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .header-contact a:hover {
+            color: var(--theme-primary);
+        }
+
+        /* Section Layout */
+        .cv-section {
+            margin-bottom: 35px;
+        }
+        .section-title {
+            font-size: 15.2px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--theme-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title i {
+            font-size: 16px;
+        }
+
+        /* Objective Block */
+        .objective-text {
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: justify;
+        }
+
+        /* Skills Lists */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        .skills-category {
+            background-color: var(--theme-primary-soft);
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            border: 1px solid rgba(12, 76, 41, 0.08);
+        }
+        .skills-category-title {
+            font-size: 12.8px;
+            font-weight: 700;
+            color: var(--theme-primary);
+            margin-bottom: 10px;
+        }
+        .skills-list {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 20px;
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+        }
+        .timeline-item {
+            margin-bottom: 25px;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        .timeline-title {
+            font-size: 14.4px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .timeline-company {
+            font-size: 12.8px;
+            font-weight: 600;
+            color: var(--theme-primary);
+        }
+        .timeline-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .timeline-desc {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .timeline-desc li {
+            position: relative;
+            padding-left: 15px;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            font-size: 12.8px;
+        }
+        .timeline-desc li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--theme-primary);
+            font-weight: bold;
+        }
+
+        /* Education & Certificates Layout */
+        .edu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .edu-item {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 15px 20px;
+            background-color: var(--bg-page);
+        }
+        .edu-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .edu-title {
+            font-size: 13.6px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .edu-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .edu-org {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .edu-score {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 8px;
+        }
+
+        /* Print Controls button */
+        .print-btn-container {
+            max-width: 850px;
+            margin: 0 auto 20px;
+            text-align: right;
+        }
+        .btn-print {
+            background-color: var(--theme-primary);
+            color: #ffffff;
+            border: none;
+            padding: 8px 18px;
+            font-size: 12.8px;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+        .btn-print:hover {
+            opacity: 0.9;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+                padding: 0;
+            }
+            .print-btn-container {
+                display: none;
+            }
+            .cv-paper {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .edu-item {
+                background-color: #ffffff !important;
+            }
+            .skills-category {
+                background-color: #ffffff !important;
+                border: 1px solid #cccccc !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Print Control Bar -->
+    <div class="print-btn-container">
+        <button class="btn-print" onclick="window.print()">
+            <i class="bi bi-printer-fill"></i> In CV / Lưu PDF
+        </button>
+    </div>
+
+    <!-- Main CV Paper -->
+    <div class="cv-paper">
+        
+        <!-- Header -->
+        <header class="cv-header">
+            <div class="header-left">
+                <!-- 3x4 Container with Circular Image inside -->
+                <div class="avatar-container">
+                    <img src="it_expert_avatar.png" alt="Nguyễn Thành Lộc" class="avatar-image">
+                </div>
+                <div class="header-info">
+                    <h1>Nguyễn Thành Lộc</h1>
+                    <div class="title">Chuyên viên CNTT & AI Solution Developer</div>
+                </div>
+            </div>
+            
+            <div class="header-contact">
+                <p><i class="bi bi-calendar3"></i> 11/02/2000</p>
+                <p><i class="bi bi-telephone-fill"></i> <a href="tel:0898485135">089.8485.135</a></p>
+                <p><i class="bi bi-envelope-fill"></i> <a href="mailto:ithanhloc.2022@gmail.com">ithanhloc.2022@gmail.com</a></p>
+                <p><i class="bi bi-geo-alt-fill"></i> Quận 7, TP. Hồ Chí Minh</p>
+            </div>
+        </header>
+
+        <!-- Career Objective -->
+        <section class="cv-section">
+            <h2 class="section-title"><i class="bi bi-compass-fill"></i> Mục tiêu nghề nghiệp</h2>
+            <p class="objective-text">
+                Ứng dụng toàn diện năng lực công nghệ chuyên sâu bao gồm thiết kế mô hình AI tiên tiến, lập trình hệ thống, tự động hóa quy trình qua n8n kết hợp nhuần nhuyễn với tư duy nghiệp vụ Kinh doanh. Khát vọng tối ưu hóa hiệu suất vận hành thực tiễn, tăng trưởng doanh số thương mại điện tử, giảm thiểu tối đa chi phí và kiến tạo các giải pháp chuyển đổi số đột phá, mang lại giá trị thực chiến lâu dài cho tổ chức.
+            </p>
+        </section>
+
+        <!-- Core Skills -->
+        <section class="cv-section">
+            <h2 class="section-title"><i class="bi bi-cpu-fill"></i> Kỹ năng cốt lõi</h2>
+            <div class="skills-grid">
+                
+                <div class="skills-category">
+                    <div class="skills-category-title">Lập trình & Hệ thống</div>
+                    <ul class="skills-list">
+                        <li>Lập trình Backend: PHP, MySQL</li>
+                        <li>Lập trình Frontend: JavaScript</li>
+                        <li>Tự động hóa: n8n Workflow</li>
+                        <li>Tích hợp & Kết nối API chuyên sâu</li>
+                    </ul>
+                </div>
+
+                <div class="skills-category">
+                    <div class="skills-category-title">Trí tuệ nhân tạo (AI)</div>
+                    <ul class="skills-list">
+                        <li>Mô hình ngôn ngữ: LLMs & RAG</li>
+                        <li>Sinh hình ảnh: ComfyUI, Stable Diffusion</li>
+                        <li>Sinh video: Kling AI</li>
+                        <li>Autopilot: Chatbot tự động (Facebook, Zalo)</li>
+                    </ul>
+                </div>
+
+                <div class="skills-category">
+                    <div class="skills-category-title">Nghiệp vụ doanh nghiệp</div>
+                    <ul class="skills-list">
+                        <li>Quản trị & Vận hành E-commerce</li>
+                        <li>Quản lý & Trưng bày hàng hóa</li>
+                        <li>Tối ưu hóa SEO (Yoast SEO)</li>
+                        <li>Tin học văn phòng nâng cao</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Work Experience -->
+        <section class="cv-section">
+            <h2 class="section-title"><i class="bi bi-briefcase-fill"></i> Kinh nghiệm làm việc</h2>
+            <div class="timeline">
+                
+                <!-- Experience Item 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <div>
+                            <span class="timeline-company">Paint & More (Sơn Mỹ Nhà Việt)</span>
+                            <h3 class="timeline-title">Chuyên viên IT, AI Developer & Vận hành Hệ thống</h3>
+                        </div>
+                        <span class="timeline-time">2024 - Hiện tại</span>
+                    </div>
+                    <ul class="timeline-desc">
+                        <li>Nghiên cứu các công cụ AI Media Generation nâng cao như ComfyUI, Stable Diffusion, Kling AI phục vụ truyền thông sản phẩm, phối màu trực quan công trình, chỉnh sửa và nâng cấp chất lượng hình ảnh công trình thực tế.</li>
+                        <li>Thiết lập hệ thống chatbot AI tự động hóa chăm sóc khách hàng (Facebook, Zalo) qua workflow n8n giúp cải thiện tốc độ phản hồi và tỷ lệ giữ chân khách hàng.</li>
+                        <li>Phát triển ứng dụng nội bộ **OneCoat ColorMind AI** hỗ trợ nhân viên kỹ thuật phối màu nhanh và kết xuất dự toán lượng sơn chuẩn xác dựa trên tài liệu TDS.</li>
+                        <li>Xây dựng giải pháp di động/web **Khảo sát công trình** thu thập dữ liệu mặt sàn, diện tích tường, lưu trữ thông minh hình ảnh/tọa độ công trình và tự động xuất báo giá dự toán.</li>
+                        <li>Cải tiến, khắc phục lỗi hệ thống website thương mại điện tử **sonxit.vn**, cấu hình cổng thanh toán trực tuyến (Momo, Zalopay, VNPay) và tối ưu hóa SEO.</li>
+                    </ul>
+                </div>
+
+                <!-- Experience Item 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <div>
+                            <span class="timeline-company">FPT Telecom | Quận 7, TP. HCM</span>
+                            <h3 class="timeline-title">(Thực tập) Nhân viên Sale Online</h3>
+                        </div>
+                        <span class="timeline-time">09/2021 – 11/2021</span>
+                    </div>
+                    <ul class="timeline-desc">
+                        <li>Khai thác, tìm kiếm tập khách hàng tiềm năng qua các nền tảng số, tư vấn chuyên sâu các gói giải pháp dịch vụ mạng internet và truyền hình viễn thông.</li>
+                        <li>Hỗ trợ khách hàng hoàn thiện thủ tục đăng ký trực tuyến, phối hợp điều phối kỹ thuật lắp đặt nhanh chóng và triển khai chăm sóc khách hàng hậu mãi.</li>
+                    </ul>
+                </div>
+
+                <!-- Experience Item 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <div>
+                            <span class="timeline-company">Siêu thị Big C (GO!) | Quận 7, TP. HCM</span>
+                            <h3 class="timeline-title">(Thực tập) Nhân viên Sale Offline</h3>
+                        </div>
+                        <span class="timeline-time">01/2021 – 03/2021</span>
+                    </div>
+                    <ul class="timeline-desc">
+                        <li>Quản lý hàng hóa, sắp đặt và trưng bày sản phẩm FMCG khoa học tại quầy kệ, kiểm soát hiệu quả khu vực gian hàng khuyến mãi Tết.</li>
+                        <li>Theo dõi chặt chẽ hạn sử dụng (HSD), đối chiếu thông tin mã vạch và bảng giá niêm yết, tư vấn các chương trình ưu đãi trực tiếp cho khách mua sắm.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Education & Certificates -->
+        <section class="cv-section">
+            <h2 class="section-title"><i class="bi bi-mortarboard-fill"></i> Học vấn & Chứng chỉ</h2>
+            <div class="edu-grid">
+                
+                <!-- Education Item -->
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <h3 class="edu-title">Cử nhân Cao đẳng - Quản trị Kinh doanh</h3>
+                        <span class="edu-time">10/2021 – 01/2024</span>
+                    </div>
+                    <div class="edu-org">Trường Cao đẳng CTIM (Công Nghệ Thông Tin & Quản Trị Doanh Nghiệp)</div>
+                </div>
+
+                <!-- Certificate Item -->
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <h3 class="edu-title">Chứng chỉ Tin học Văn phòng chuyên nghiệp</h3>
+                        <span class="edu-time text-success">Xuất sắc</span>
+                    </div>
+                    <div class="edu-org">Đánh giá năng lực xử lý nghiệp vụ văn phòng</div>
+                    <div class="edu-score">
+                        Kết quả thi: Lý thuyết: <strong>6.6/10</strong> | Thực hành: <strong>9.1/10</strong>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
